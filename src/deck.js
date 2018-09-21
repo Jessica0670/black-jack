@@ -8,6 +8,7 @@ class Deck extends Component {
     this.state = {
       deck: [],
       hand: [],
+      dealerHand: [],
       suits: ['Hearts', 'Spades', 'Clubs', 'Diamonds'], 
       values: ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King']
     }
@@ -37,7 +38,12 @@ class Deck extends Component {
   deal() {
     let card1 = this.state.deck.pop()
     let card2 = this.state.deck.pop()
-    this.setState({hand: [card1, card2]})
+    let card3 = this.state.deck.pop()
+    let card4 = this.state.deck.pop()
+    this.setState({
+      hand: [card1, card3],
+      dealerHand: [card2, card4]
+    })
   }
 
   hit() {
@@ -45,6 +51,9 @@ class Deck extends Component {
     this.setState({hand: [...this.state.hand, card]})
   }
 
+  stay() {
+
+  }
 
   reset(){
     let newDeck = [];
@@ -55,7 +64,8 @@ class Deck extends Component {
     }
     this.setState({
       deck: newDeck,
-      hand: []
+      hand: [],
+      dealerHand: []
     })
     console.log(this.state.deck)
   }
@@ -64,12 +74,15 @@ class Deck extends Component {
     return (
       <div className="Deck">
         <button onClick={()=>this.hit()}>Hit</button>
-        <button>Stay</button>
+        <button onClick={()=>this.stay()}>Stay</button>
         <button onClick={()=>this.shuffle()}>Shuffle</button>
         <button onClick={()=>this.reset()}>Reset</button>
         <div className="game-container">
           <button className="start-button" onClick={()=>this.deal()}>Start!</button>
+          <h4>Your Hand</h4>
           <Hand hand={this.state.hand} />
+          <h4>Dealer Hand</h4>
+          {this.state.dealerHand}
         </div>
       </div>
     );
