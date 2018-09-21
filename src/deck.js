@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Hand from './components/hand';
-
+import DealerHand from './components/dealerHand';
 class Deck extends Component {
   constructor() {
     super()
@@ -9,7 +9,7 @@ class Deck extends Component {
       deck: [],
       hand: [],
       dealerHand: [],
-      suits: ['Hearts', 'Spades', 'Clubs', 'Diamonds'], 
+      suits: ['Hearts ♥', 'Spades ♠', 'Clubs ♣', 'Diamonds ♦'],
       values: ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King']
     }
   }
@@ -21,16 +21,16 @@ class Deck extends Component {
         deck.push(this.state.values[value] + ' of ' + this.state.suits[suit]);
       }
     }
-    this.setState({deck: deck})
+    this.shuffle(deck)
+    this.setState({ deck: deck })
+    console.log(deck,'ttsting')
   }
 
-  shuffle() {
-    const deck = this.state.deck;
+  shuffle(deck) {
+    // const deck = this.state.deck;
     let m = deck.length, i;
-
     while (m) {
       i = Math.floor(Math.random() * m--);
-
       [deck[m], deck[i]] = [deck[i], deck[m]];
     }
   }
@@ -48,41 +48,40 @@ class Deck extends Component {
 
   hit() {
     let card = this.state.deck.pop()
-    this.setState({hand: [...this.state.hand, card]})
+    this.setState({ hand: [...this.state.hand, card] })
   }
 
   stay() {
 
   }
 
-  reset(){
+  reset() {
     let newDeck = [];
     for (let suit in this.state.suits) {
       for (let value in this.state.values) {
         newDeck.push(this.state.values[value] + ' of ' + this.state.suits[suit]);
       }
     }
+    this.shuffle(newDeck)
     this.setState({
       deck: newDeck,
       hand: [],
       dealerHand: []
     })
-    console.log(this.state.deck)
   }
 
   render() {
     return (
       <div className="Deck">
-        <button onClick={()=>this.hit()}>Hit</button>
-        <button onClick={()=>this.stay()}>Stay</button>
-        <button onClick={()=>this.shuffle()}>Shuffle</button>
-        <button onClick={()=>this.reset()}>Reset</button>
+        <button onClick={() => this.stay()}>Stay</button>
+        <button onClick={() => this.shuffle(this.state.deck)}>Shuffle</button>
+        <button onClick={() => this.reset()}>Reset</button>
         <div className="game-container">
-          <button className="start-button" onClick={()=>this.deal()}>Start!</button>
+          <button className="start-button" onClick={() => this.deal()}>Start!</button>
           <h4>Your Hand</h4>
-          <Hand hand={this.state.hand} />
+          <Hand hand={this.state.hand} hit={this.hit.bind(this)}/>
           <h4>Dealer Hand</h4>
-          {this.state.dealerHand}
+          <DealerHand dealerHand={this.state.dealerHand} />
         </div>
       </div>
     );

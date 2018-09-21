@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 
-class Hand extends Component {
+class DealerHand extends Component {
   constructor() {
     super()
   }
@@ -9,8 +9,7 @@ class Hand extends Component {
   render() {
     return (
       <div className="Deck">
-        <button onClick={() => this.props.hit()}>Hit</button>
-        {this.props.hand.map((card, i) => {
+        {this.props.dealerHand.map((card, i) => {
           return <li key={i}>{card}</li>
         })}
       </div>
@@ -18,4 +17,4 @@ class Hand extends Component {
   }
 }
 
-export default Hand;
+export default DealerHand;
