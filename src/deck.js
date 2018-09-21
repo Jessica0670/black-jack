@@ -73,13 +73,12 @@ class Deck extends Component {
   render() {
     return (
       <div className="Deck">
-        <button onClick={() => this.stay()}>Stay</button>
         <button onClick={() => this.shuffle(this.state.deck)}>Shuffle</button>
         <button onClick={() => this.reset()}>Reset</button>
         <div className="game-container">
           <button className="start-button" onClick={() => this.deal()}>Start!</button>
           <h4>Your Hand</h4>
-          <Hand hand={this.state.hand} hit={this.hit.bind(this)}/>
+          <Hand hand={this.state.hand} hit={this.hit.bind(this)} stay={this.stay.bind(this)}/>
           <h4>Dealer Hand</h4>
           <DealerHand dealerHand={this.state.dealerHand} />
         </div>
