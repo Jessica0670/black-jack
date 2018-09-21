@@ -45,18 +45,19 @@ class Deck extends Component {
   }
 
 
-  // reset(){
-  //   this.deck = [];
-
-  //   const suits = ['Hearts', 'Spades', 'Clubs', 'Diamonds'];
-  //   const values = ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King'];
-
-  //   for (let suit in suits) {
-  //     for (let value in values) {
-  //       this.deck.push(values[value] + ' of ' + suits[suit]);
-  //     }
-  //   }
-  // }
+  reset(){
+    let newDeck = [];
+    for (let suit in this.state.suits) {
+      for (let value in this.state.values) {
+        newDeck.push(this.state.values[value] + ' of ' + this.state.suits[suit]);
+      }
+    }
+    this.setState({
+      deck: newDeck,
+      hand: []
+    })
+    console.log(this.state.deck)
+  }
 
   render() {
     return (
@@ -66,7 +67,7 @@ class Deck extends Component {
       <button>Stay</button>
       {this.state.hand}
       <button onClick={()=>this.shuffle()}>Shuffle</button>
-      <button>Reset</button>
+      <button onClick={()=>this.reset()}>Reset</button>
       </div>
     );
   }
