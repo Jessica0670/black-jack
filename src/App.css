@@ -2,27 +2,30 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.game-container {
+  padding: 25px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+.start-button {
+  height: 50px;
+  width: 60px;
+  border-radius: 10px;
+  margin: auto;
+  background-color: darkgreen;
   color: white;
 }
 
-.App-title {
-  font-size: 1.5em;
+li {
+  list-style: none;
+  padding: 10px;
+  box-shadow: 0 8px 6px -6px darkgrey;
+  width: 175px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
+/* @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
+} */

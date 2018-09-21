@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Hand from './components/hand';
 
 class Deck extends Component {
   constructor() {
@@ -62,12 +63,14 @@ class Deck extends Component {
   render() {
     return (
       <div className="Deck">
-      <button onClick={()=>this.deal()}>Deal</button>
-      <button onClick={()=>this.hit()}>Hit</button>
-      <button>Stay</button>
-      {this.state.hand}
-      <button onClick={()=>this.shuffle()}>Shuffle</button>
-      <button onClick={()=>this.reset()}>Reset</button>
+        <button onClick={()=>this.hit()}>Hit</button>
+        <button>Stay</button>
+        <button onClick={()=>this.shuffle()}>Shuffle</button>
+        <button onClick={()=>this.reset()}>Reset</button>
+        <div className="game-container">
+          <button className="start-button" onClick={()=>this.deal()}>Start!</button>
+          <Hand hand={this.state.hand} />
+        </div>
       </div>
     );
   }
