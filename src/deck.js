@@ -33,13 +33,11 @@ class Deck extends Component {
     }
   }
 
-  // deal() {
-  //   let card1 = this.deck.pop()
-  //   let card2 = this.deck.pop()
-  //   this.hand.push(card1, card2);
-  //   console.log(this.deck, 'remaining cards', this.deck.length)
-  //   return this.hand;
-  // }
+  deal() {
+    let card1 = this.state.deck.pop()
+    let card2 = this.state.deck.pop()
+    this.setState({hand: [card1, card2]})
+  }
 
   // hit() {
   //   let card = this.deck.pop()
@@ -64,10 +62,10 @@ class Deck extends Component {
   render() {
     return (
       <div className="Deck">
-      <button>Deal</button>
+      <button onClick={()=>this.deal()}>Deal</button>
       <button>Hit</button>
       <button>Stay</button>
-
+      {this.state.hand}
       <button onClick={()=>this.shuffle()}>Shuffle</button>
       <button>Reset</button>
       </div>
