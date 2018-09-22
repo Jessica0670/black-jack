@@ -8,9 +8,8 @@ class Deck extends Component {
     this.state = {
       deck: [],
       hand: [],
-      myScore: 0,
-      dealerScore: 0,
       dealerHand: [],
+      tally: [0,0],
       suits: ['Hearts ♥', 'Spades ♠', 'Clubs ♣', 'Diamonds ♦'],
       values: ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King']
     }
@@ -66,8 +65,12 @@ class Deck extends Component {
   }
 
   stay(dealerHand, myHand) {
+    console.log(this.state.deck.length, 'length of deck')
     if(dealerScore >= 17) {
       return;
+    }
+    if(this.state.deck.length === 1) {
+      console.log('need to reset')
     }
     let myScore = 0;
     let dealerScore = 0;
@@ -98,52 +101,35 @@ class Deck extends Component {
     if(dealerScore < 17) {
       let card = this.state.deck.pop()
       this.setState({dealerHand: [...this.state.dealerHand, card]})
-      dealerHand = this.state.dealerHand.concat(card)
-      this.stay(dealerHand, this.state.hand)
+      let newDealerHand = this.state.dealerHand.concat(card)
+      this.stay(newDealerHand, this.state.hand)
     } 
     else if( dealerScore >= 17) {
       if (myScore > dealerScore && myScore <= 21) {
+        this.setState({tally: [this.state.tally[0] + 1, this.state.tally[1]]})
         console.log('I win')
       }
       else if (dealerScore > myScore && dealerScore <= 21) {
+        this.setState({tally: [this.state.tally[0], this.state.tally[1] + 1]})
         console.log('dealer wins')
       }
       else if(dealerScore === myScore) {
         console.log('push')
       } 
-      else if (dealerScore > 21) {
-        console.log('dealer bust, I win')
-      }
       else if (myScore > 21) {
+        this.setState({tally: [this.state.tally[0], this.state.tally[1] + 1]})
         console.log('I bust, dealer wins')
       }
+      else if (dealerScore > 21) {
+        this.setState({tally: [this.state.tally[0] + 1, this.state.tally[1]]})
+        console.log('dealer bust, I win')
+      }
       else if (myScore === 21) {
+        this.setState({tally: [this.state.tally[0] + 1, this.state.tally[1]]})
         console.log('BLACKJACK')
       }
     }
-    // this.result(myScore, dealerScore)
   }
-
-  result(myScore, dealerScore) {
-    console.log('end',myScore, dealerScore)
-    if(dealerScore < 17) {
-      let card = this.state.deck.pop()
-      this.setState({dealerHand: [...this.state.dealerHand, card]})
-    }
-    else if (myScore > dealerScore) {
-      console.log('i win')
-    }
-    else if (dealerScore > myScore) {
-      console.log('dealer wins')
-    }
-    if(dealerScore === myScore) {
-      console.log('push')
-    }
-  }
-
-  // componentDidUpdate() {
-  //   this.stay(this.state.dealerHand, this.state.hand)
-  // }
 
   reset() {
     let newDeck = [];
@@ -165,17 +151,26 @@ class Deck extends Component {
       <div className="Deck">
         <button onClick={() => this.shuffle(this.state.deck)}>Shuffle</button>
         <button onClick={() => this.reset()}>Reset</button>
+        <br></br>
+        <button className="start-button" onClick={() => this.deal()}>Start!</button>
         <div className="game-container">
-          <button className="start-button" onClick={() => this.deal()}>Start!</button>
-          <h4>Your Hand</h4>
-          <button onClick={() => this.stay(this.state.dealerHand, this.state.hand)}>Stay</button>
-          <Hand
-            hand={this.state.hand} hit={this.hit.bind(this)}
-          // stay={this.stay.bind(this)} 
-          // myHand={this.state.myHand} dealerHand={this.state.dealerHand} 
-          />
-          <h4>Dealer Hand</h4>
-          <DealerHand dealerHand={this.state.dealerHand} />
+          <div className="my-hand hands">
+            <h4>Your Hand</h4>
+            <Hand
+              hand={this.state.hand} hit={this.hit.bind(this)}
+            stay={this.stay.bind(this)} myHand={this.state.hand} dealerHand={this.state.dealerHand}
+            />
+          </div>
+          <div>
+            <h5>Your Wins</h5>
+            {this.state.tally[0]}
+            <h5>Dealer Wins</h5>
+            {this.state.tally[1]}
+          </div>
+          <div className="dealer-hand hands">
+            <h4>Dealer Hand</h4>
+            <DealerHand dealerHand={this.state.dealerHand} />
+          </div>
         </div>
       </div>
     );
