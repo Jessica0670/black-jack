@@ -50,17 +50,45 @@ class Deck extends Component {
   hit() {
     let card = this.state.deck.pop()
     this.setState({ hand: [...this.state.hand, card] })
+    let res = 0;
+    let arr = this.state.hand.concat(card)
+    arr.forEach(elem => {
+      if(elem[0] === 'A') {
+        res = res + 11
+      } else if(elem[1] === '0') {
+        res = res + 10
+      } else if (elem[0] == 'K' || elem[0] == 'Q' || elem[0] == 'J') {
+        res = res + 10 
+      } else {
+        res = parseInt(elem[0]) + res
+      }
+    })
+    console.log(res, 'res')
   }
 
   stay(dealerHand, myHand) {
-    console.log(dealerHand, myHand)
     let myScore = 0;
     let dealerScore = 0;
+    console.log(dealerHand, myHand)
     dealerHand.forEach(elem => {
-      dealerScore = parseInt(elem[0]) + dealerScore
+      console.log(elem[0], 'dealer')
+      if(elem[0] === 'A') {
+        dealerScore = dealerScore + 11
+      } else if (elem[0] == 'K' || elem[0] == 'Q' || elem[0] == 'J') {
+        dealerScore = dealerScore + 10 
+      } else {
+        dealerScore = parseInt(elem[0]) + dealerScore
+      }
     })
     myHand.forEach(elem => {
-      myScore = parseInt(elem[0]) + myScore
+      console.log(elem[0], 'mine')
+      if(elem[0] === 'A') {
+        myScore = myScore + 11
+      } else if (elem[0] == 'K' || elem[0] == 'Q' || elem[0] == 'J') {
+        myScore = myScore + 10 
+      } else {
+        myScore = parseInt(elem[0]) + myScore
+      }
     })
     console.log(myScore, dealerScore)
     if (myScore > dealerScore) {
@@ -69,6 +97,11 @@ class Deck extends Component {
     if (dealerScore > myScore) {
       console.log('dealer wins')
     }
+    this.result()
+  }
+
+  result() {
+    console.log('end')
   }
 
   reset() {
