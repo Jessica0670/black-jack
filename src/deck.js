@@ -63,15 +63,16 @@ class Deck extends Component {
         res = parseInt(elem[0]) + res
       }
     })
-    console.log(res, 'res')
   }
 
   stay(dealerHand, myHand) {
+    if(dealerScore >= 17) {
+      return;
+    }
     let myScore = 0;
     let dealerScore = 0;
     console.log(dealerHand, myHand)
     dealerHand.forEach(elem => {
-      console.log(elem[0], 'dealer')
       if(elem[0] === 'A') {
         dealerScore = dealerScore + 11
       } else if(elem[1] === '0') {
@@ -83,7 +84,6 @@ class Deck extends Component {
       }
     })
     myHand.forEach(elem => {
-      console.log(elem[0], 'mine')
       if(elem[0] === 'A') {
         myScore = myScore + 11
       } else if(elem[1] === '0') {
@@ -95,18 +95,55 @@ class Deck extends Component {
       }
     })
     console.log(myScore, dealerScore)
-    if (myScore > dealerScore) {
-      console.log('i win')
+    if(dealerScore < 17) {
+      let card = this.state.deck.pop()
+      this.setState({dealerHand: [...this.state.dealerHand, card]})
+      dealerHand = this.state.dealerHand.concat(card)
+      this.stay(dealerHand, this.state.hand)
+    } 
+    else if( dealerScore >= 17) {
+      if (myScore > dealerScore && myScore <= 21) {
+        console.log('I win')
+      }
+      else if (dealerScore > myScore && dealerScore <= 21) {
+        console.log('dealer wins')
+      }
+      else if(dealerScore === myScore) {
+        console.log('push')
+      } 
+      else if (dealerScore > 21) {
+        console.log('dealer bust, I win')
+      }
+      else if (myScore > 21) {
+        console.log('I bust, dealer wins')
+      }
+      else if (myScore === 21) {
+        console.log('BLACKJACK')
+      }
     }
-    if (dealerScore > myScore) {
-      console.log('dealer wins')
-    }
-    this.result()
+    // this.result(myScore, dealerScore)
   }
 
-  result() {
-    console.log('end')
+  result(myScore, dealerScore) {
+    console.log('end',myScore, dealerScore)
+    if(dealerScore < 17) {
+      let card = this.state.deck.pop()
+      this.setState({dealerHand: [...this.state.dealerHand, card]})
+    }
+    else if (myScore > dealerScore) {
+      console.log('i win')
+    }
+    else if (dealerScore > myScore) {
+      console.log('dealer wins')
+    }
+    if(dealerScore === myScore) {
+      console.log('push')
+    }
   }
+
+  // componentDidUpdate() {
+  //   this.stay(this.state.dealerHand, this.state.hand)
+  // }
 
   reset() {
     let newDeck = [];
