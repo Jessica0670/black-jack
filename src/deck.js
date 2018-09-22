@@ -74,6 +74,8 @@ class Deck extends Component {
       console.log(elem[0], 'dealer')
       if(elem[0] === 'A') {
         dealerScore = dealerScore + 11
+      } else if(elem[1] === '0') {
+        dealerScore = dealerScore + 10
       } else if (elem[0] == 'K' || elem[0] == 'Q' || elem[0] == 'J') {
         dealerScore = dealerScore + 10 
       } else {
@@ -84,6 +86,8 @@ class Deck extends Component {
       console.log(elem[0], 'mine')
       if(elem[0] === 'A') {
         myScore = myScore + 11
+      } else if(elem[1] === '0') {
+        myScore = myScore + 10
       } else if (elem[0] == 'K' || elem[0] == 'Q' || elem[0] == 'J') {
         myScore = myScore + 10 
       } else {
