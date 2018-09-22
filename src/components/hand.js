@@ -6,11 +6,15 @@ class Hand extends Component {
     super()
   }
 
+  // calculateScore() {
+  //   console.log(this.props.hand)
+  // }
+
   render() {
     return (
       <div className="Deck">
         <button onClick={() => this.props.hit()}>Hit</button>
-        <button onClick={() => this.stay()}>Stay</button>
+        {/* <button onClick={() => this.props.stay(this.props.dealerHand, this.props.myHand)}>Stay</button> */}
         {this.props.hand.map((card, i) => {
           return <li key={i}>{card}</li>
         })}

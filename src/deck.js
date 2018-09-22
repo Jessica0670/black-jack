@@ -8,6 +8,8 @@ class Deck extends Component {
     this.state = {
       deck: [],
       hand: [],
+      myScore: 0,
+      dealerScore: 0,
       dealerHand: [],
       suits: ['Hearts ♥', 'Spades ♠', 'Clubs ♣', 'Diamonds ♦'],
       values: ['Ace', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King']
@@ -23,11 +25,10 @@ class Deck extends Component {
     }
     this.shuffle(deck)
     this.setState({ deck: deck })
-    console.log(deck,'ttsting')
+    console.log(deck, 'ttsting')
   }
 
   shuffle(deck) {
-    // const deck = this.state.deck;
     let m = deck.length, i;
     while (m) {
       i = Math.floor(Math.random() * m--);
@@ -51,8 +52,23 @@ class Deck extends Component {
     this.setState({ hand: [...this.state.hand, card] })
   }
 
-  stay() {
-
+  stay(dealerHand, myHand) {
+    console.log(dealerHand, myHand)
+    let myScore = 0;
+    let dealerScore = 0;
+    dealerHand.forEach(elem => {
+      dealerScore = parseInt(elem[0]) + dealerScore
+    })
+    myHand.forEach(elem => {
+      myScore = parseInt(elem[0]) + myScore
+    })
+    console.log(myScore, dealerScore)
+    if (myScore > dealerScore) {
+      console.log('i win')
+    }
+    if (dealerScore > myScore) {
+      console.log('dealer wins')
+    }
   }
 
   reset() {
@@ -78,7 +94,12 @@ class Deck extends Component {
         <div className="game-container">
           <button className="start-button" onClick={() => this.deal()}>Start!</button>
           <h4>Your Hand</h4>
-          <Hand hand={this.state.hand} hit={this.hit.bind(this)} stay={this.stay.bind(this)}/>
+          <button onClick={() => this.stay(this.state.dealerHand, this.state.hand)}>Stay</button>
+          <Hand
+            hand={this.state.hand} hit={this.hit.bind(this)}
+          // stay={this.stay.bind(this)} 
+          // myHand={this.state.myHand} dealerHand={this.state.dealerHand} 
+          />
           <h4>Dealer Hand</h4>
           <DealerHand dealerHand={this.state.dealerHand} />
         </div>
